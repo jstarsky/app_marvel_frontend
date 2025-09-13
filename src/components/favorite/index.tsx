@@ -1,4 +1,3 @@
-import { useTransition } from "react";
 import { FavoriteProps } from "./types";
 import { useTranslation } from "react-i18next";
 

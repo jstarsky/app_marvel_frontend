@@ -2,20 +2,53 @@
 
 import Layout from "@/components/layout";
 import useCharacters from "./hook";
-import LoadingMarvel from "@/components/loading-marvel";
 import Card from "@/components/card";
 import InputSearch from "@/components/input-search";
 import { useTranslation } from "react-i18next";
+import { useEffect, useRef } from "react";
+import { useDebounce } from "@/hooks/debounce";
 
 export default function Characters() {
   const { t } = useTranslation();
-  const { loading, characters } = useCharacters();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { loading, characters, loadMore, hasMore, reset } =
+    useCharacters();
+
+  const { call: debouncedReset, cancel: cancelDebounce } = useDebounce(() => {
+    reset();
+  }, 500);
+
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const root = scrollRef.current;
+    const sentinel = sentinelRef.current;
+    if (!root || !sentinel) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && hasMore && !loading) {
+            loadMore(inputRef.current?.value);
+          }
+        });
+      },
+      { root, rootMargin: "200px", threshold: 0 }
+    );
+    obs.observe(sentinel);
+    return () => obs.disconnect();
+  }, [loadMore, hasMore, loading]);
+
+  useEffect(() => {
+    return () => {
+      cancelDebounce();
+    };
+  }, [cancelDebounce]);
+
   return (
     <Layout className="relative flex flex-col">
-      <LoadingMarvel loading={loading} variant="container" />
       <div
         className={[
-          // "w-full",
           "pt-12",
           "px-4 pb-8",
           "xs:px-4 xs:pb-8",
@@ -24,13 +57,20 @@ export default function Characters() {
         ].join(" ")}
       >
         <InputSearch
+          ref={inputRef}
+          onChange={() => debouncedReset()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              debouncedReset();
+            }
+          }}
           placeholder={t("search_character")}
-          autoFocus
           loading={loading}
           result={characters.length}
         />
       </div>
-      <div className="flex-1 !overflow-y-scroll">
+      <div ref={scrollRef} className="flex-1 !overflow-y-scroll">
         <div>
           <div
             className={[
@@ -44,17 +84,15 @@ export default function Characters() {
               "sm:px-10 sm:pb-10",
               "lg:px-12 lg:pb-12",
               "gap-4",
-              "h-full",
               "min-h-0",
-              "overflow-auto",
             ].join(" ")}
           >
-            {!loading &&
-              characters.length > 0 &&
+            {characters.length > 0 &&
               characters.map((character) => (
                 <Card key={`character-${character.id}`} {...character} />
               ))}
           </div>
+          <div ref={sentinelRef} className="h-6" />
         </div>
       </div>
     </Layout>

@@ -1,6 +1,8 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, Ref } from "react";
 
-export interface InputSearchProps extends InputHTMLAttributes<HTMLInputElement> {
-result?: number;
-loading?: boolean;
+export interface InputSearchProps
+  extends InputHTMLAttributes<HTMLInputElement> {
+  ref?: Ref<HTMLInputElement>;
+  result?: number;
+  loading?: boolean;
 }

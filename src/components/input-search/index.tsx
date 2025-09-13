@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { InputSearchProps } from "./types";
 export default function InputSearch({
+  ref,
   type = "text",
   className,
   loading = false,
@@ -24,6 +25,7 @@ export default function InputSearch({
       >
         <span className="marvel-search mb-2" />
         <input
+          ref={ref}
           type={type}
           {...props}
           className={[
