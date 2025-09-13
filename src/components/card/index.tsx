@@ -4,7 +4,12 @@
 import Favorite from "../favorite";
 import { CardProps } from "./types";
 
-export default function Card({ id, name = "", thumbnail }: CardProps) {
+export default function Card({
+  id,
+  name = "",
+  thumbnail,
+  isFavorite,
+}: CardProps) {
   const rawSrc = `${thumbnail.path}.${thumbnail.extension}`;
   const isImageNotAvailable = /image_not_available$/i.test(thumbnail.path);
   const src = rawSrc.startsWith("http:")
@@ -61,7 +66,7 @@ export default function Card({ id, name = "", thumbnail }: CardProps) {
         >
           {name}
         </span>
-        <Favorite id={`card-favorite-${id}`} />
+        <Favorite id={`card-favorite-${id}`} isActive={isFavorite} />
       </div>
     </div>
   );

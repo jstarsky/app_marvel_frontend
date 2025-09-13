@@ -8,6 +8,10 @@ export interface UserAction extends Action {
     user?: User | null;
 }
 
+export interface FavoriteAction extends Action {
+  id: number;
+}
+
 export interface Profile {
   phone?: string;
   avatar?: string;
@@ -22,7 +26,12 @@ export interface User {
     created_at?: string;
     profile: Profile;
 }
+
 export interface UserState {
   token?: string | null;
   user?: User | null;
+}
+
+export interface FavoriteState {
+  favorites: number[];
 }

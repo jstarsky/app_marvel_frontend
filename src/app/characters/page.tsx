@@ -88,8 +88,8 @@ export default function Characters() {
             ].join(" ")}
           >
             {characters.length > 0 &&
-              characters.map((character) => (
-                <Card key={`character-${character.id}`} {...character} />
+              characters.map((character, index) => (
+                <Card key={`character-${character.id}-${index}`} {...character} isFavorite />
               ))}
           </div>
           <div ref={sentinelRef} className="h-6" />
