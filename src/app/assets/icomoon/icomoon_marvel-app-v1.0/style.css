@@ -1,0 +1,58 @@
+@font-face {
+  font-family: 'icomoon_marvel-app';
+  src:  url('fonts/icomoon_marvel-app.eot?akl36m');
+  src:  url('fonts/icomoon_marvel-app.eot?akl36m#iefix') format('embedded-opentype'),
+    url('fonts/icomoon_marvel-app.ttf?akl36m') format('truetype'),
+    url('fonts/icomoon_marvel-app.woff?akl36m') format('woff'),
+    url('fonts/icomoon_marvel-app.svg?akl36m#icomoon_marvel-app') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="marvel-"], [class*=" marvel-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon_marvel-app' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.marvel-search:before {
+  content: "\e900";
+}
+.marvel-favourite-outline:before {
+  content: "\e901";
+}
+.marvel-favourite:before {
+  content: "\e902";
+}
+.marvel-marvel-logo .path1:before {
+  content: "\e903";
+  color: rgb(236, 29, 36);
+}
+.marvel-marvel-logo .path2:before {
+  content: "\e904";
+  margin-left: -2.5em;
+  color: rgb(254, 254, 254);
+}
+.marvel-marvel-logo .path3:before {
+  content: "\e905";
+  margin-left: -2.5em;
+  color: rgb(236, 29, 36);
+}
+.marvel-marvel-logo .path4:before {
+  content: "\e906";
+  margin-left: -2.5em;
+  color: rgb(254, 254, 254);
+}
+.marvel-marvel-logo-text:before {
+  content: "\e907";
+}
