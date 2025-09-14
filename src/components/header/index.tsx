@@ -10,6 +10,7 @@ export default function Header({
   isFilteringFavorites: controlledFilteringFavorites,
   setFilteringFavorites: setControlledFilteringFavorites,
   onChangeFilterFavorites=() => {},
+  disablefilteringFavorites = false,
 }: HeaderProps) {
   const [uncontrolledFilteringFavorites, setUncontrolledFilteringFavorites] =
     useState<boolean>(false);
@@ -37,10 +38,15 @@ export default function Header({
           logout();
         }}
         isActive={isFilteringFavorites}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
+          if (disablefilteringFavorites) {
+            return;
+          }
           setFilteringFavorites(!isFilteringFavorites);
           onChangeFilterFavorites(!isFilteringFavorites);
         }}
+        
         amount={favorites.length}
       />
     </header>

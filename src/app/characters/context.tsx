@@ -6,6 +6,8 @@ import {
   useEffect,
   use,
   useState,
+  Dispatch,
+  SetStateAction,
 } from "react";
 import { Character, UseCharactersContext } from "./types";
 import useCharacters from "./hook";
@@ -16,9 +18,21 @@ export const CharactersContext = createContext<
   UseCharactersContext | undefined
 >(undefined);
 
-export const CharactersProvider = ({ children }: { children: ReactNode }) => {
+export const CharactersProvider = ({
+  character: controlledCharacter,
+  setCharacter: controlledSetCharacter,
+  children,
+}: {
+  character?: Character | null;
+  setCharacter?: Dispatch<SetStateAction<Character | null>>;
+  children: ReactNode;
+}) => {
+  const [uncontrolledCharacter, setUncontrolledCharacter] =
+    useState<Character | null>(null);
+  const character = controlledCharacter ?? uncontrolledCharacter;
+  const setCharacter = controlledSetCharacter ?? setUncontrolledCharacter;
+
   const { isFilteringFavorites } = useLayout();
-  const [character, setCharacter] = useState<Character | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const {
     loading,
@@ -32,6 +46,7 @@ export const CharactersProvider = ({ children }: { children: ReactNode }) => {
     favoriteAdd,
     favoriteRemove,
     isFavorite,
+    resourceURI,
   } = useCharacters(50, isFilteringFavorites);
 
   const { call: debouncedReset, cancel: cancelDebounce } = useDebounce(() => {
@@ -90,6 +105,7 @@ export const CharactersProvider = ({ children }: { children: ReactNode }) => {
         cancelDebounce,
         character,
         setCharacter,
+        resourceURI,
       }}
     >
       {children}

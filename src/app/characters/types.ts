@@ -1,4 +1,4 @@
-import {  Dispatch, Ref, RefObject, SetStateAction } from "react";
+import { Dispatch, Ref, RefObject, SetStateAction } from "react";
 
 export interface Thumbnail {
   path: string;
@@ -35,6 +35,13 @@ export interface Character {
   modified: Date;
 }
 
+export interface Comic {
+  id: number;
+  title: string;
+  issn?: string;
+  thumbnail?: Thumbnail;
+}
+
 export interface UseCharacters {
   loading: boolean;
   error: string | null;
@@ -47,6 +54,7 @@ export interface UseCharacters {
   isFavorite: (id: number) => boolean;
   favoriteAdd: (character: Character) => void;
   favoriteRemove: (character: Character) => void;
+  resourceURI: (uri: string) => Promise<unknown>;
 }
 
 export interface UseCharactersContext extends UseCharacters {

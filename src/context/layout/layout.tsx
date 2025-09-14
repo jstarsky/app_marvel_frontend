@@ -9,7 +9,7 @@ const LayoutContext = createContext<UseLayoutContext | undefined>(undefined);
 export function LayoutProvider({
   children,
   className,
-
+  disablefilteringFavorites,
   ...props
 }: LayoutProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -33,6 +33,7 @@ export function LayoutProvider({
           isFilteringFavorites={isFilteringFavorites}
           setFilteringFavorites={setFilteringFavorites}
           onChangeFilterFavorites={onChangeFilterFavorites}
+          disablefilteringFavorites={disablefilteringFavorites}
         />
         <div
           className={["grow min-h-0", className].filter(Boolean).join(" ")}

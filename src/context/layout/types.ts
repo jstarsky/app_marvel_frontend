@@ -6,4 +6,6 @@ export interface UseLayoutContext {
   setFilteringFavorites?: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface LayoutProps extends HTMLAttributes<HTMLDivElement> {}
+export interface LayoutProps extends HTMLAttributes<HTMLDivElement> {
+  disablefilteringFavorites?: boolean;
+}

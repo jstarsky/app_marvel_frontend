@@ -86,6 +86,18 @@ export default function useCharacters(
     [limit, hasMore, isFilteringFavorites]
   );
 
+  async function resourceURI(uri: string) {
+    try {
+      const response = await marvel.get("/api/marvel/resource", {
+        params: { path: uri },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching resource:", error);
+      return null;
+    }
+  }
+
   function favoriteAdd(character: Character) {
     dispatch(actionFavoriteAdd(character));
   }
@@ -119,5 +131,6 @@ export default function useCharacters(
     isFavorite,
     favoriteAdd,
     favoriteRemove,
+    resourceURI
   };
 }

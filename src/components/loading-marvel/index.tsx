@@ -6,6 +6,7 @@ export default function LoadingMarvel({
 }: {
   loading?: boolean;
   variant?: "fullscreen" | "container" | "inline";
+  size?: "small" | "medium" | "large";
 }) {
   if (!loading) {
     return null;
@@ -24,7 +25,7 @@ export default function LoadingMarvel({
     >
       <div className="flex flex-col items-center gap-4">
         <span
-          className="flex flex-col items-center text-[clamp(3rem,10vw,7rem)] marvel-marvel-logo-text text-center text-shimmer"
+          className="flex flex-col items-center text-[clamp(1.5rem,6vw,3.5rem)] marvel-marvel-logo-text text-center text-shimmer"
           aria-hidden
         >
           <span className="path1" />

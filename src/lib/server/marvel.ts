@@ -5,7 +5,7 @@ const SERVER_MARVEL_BASE = process.env.NEXT_PUBLIC_MARVEL_API_URL;
 
 const serverMarvel = axios.create({
   baseURL: SERVER_MARVEL_BASE,
-  timeout: 10000,
+  timeout: 100000,
 });
 
 serverMarvel.interceptors.request.use((config) => {
