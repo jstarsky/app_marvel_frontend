@@ -9,6 +9,7 @@ export default function Card({
   name = "",
   thumbnail,
   isFavorite,
+  onAddFavorite,
 }: CardProps) {
   const rawSrc = `${thumbnail.path}.${thumbnail.extension}`;
   const isImageNotAvailable = /image_not_available$/i.test(thumbnail.path);
@@ -66,7 +67,11 @@ export default function Card({
         >
           {name}
         </span>
-        <Favorite id={`card-favorite-${id}`} isActive={isFavorite} />
+        <Favorite
+          id={`card-favorite-${id}`}
+          isActive={isFavorite}
+          onClick={onAddFavorite}
+        />
       </div>
     </div>
   );

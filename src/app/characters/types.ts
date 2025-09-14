@@ -1,3 +1,5 @@
+import {  Ref, RefObject } from "react";
+
 export interface Thumbnail {
   path: string;
   extension: string;
@@ -31,4 +33,27 @@ export interface Character {
   stories: Resource;
   urls: Url[];
   modified: Date;
+}
+
+export interface UseCharacters {
+  loading: boolean;
+  error: string | null;
+  characters: Character[];
+  favorites: Character[];
+  loadMore: (nameStartsWith?: string) => void;
+  hasMore: boolean;
+  searchFavorites: (nameStartsWith?: string) => Character[];
+  reset: () => void;
+  isFavorite: (id: number) => boolean;
+  favoriteAdd: (character: Character) => void;
+  favoriteRemove: (character: Character) => void;
+}
+
+export interface UseCharactersContext extends UseCharacters {
+  isFilteringFavorites: boolean;
+  inputRef?: RefObject<HTMLInputElement> | Ref<HTMLInputElement>;
+  scrollRef?: RefObject<HTMLDivElement> | Ref<HTMLDivElement>;
+  sentinelRef?: RefObject<HTMLDivElement> | Ref<HTMLDivElement>;
+  debouncedReset: () => void;
+  cancelDebounce: () => void;
 }

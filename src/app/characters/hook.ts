@@ -1,9 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Character } from "./types";
+import { Character, UseCharacters } from "./types";
 import marvel from "@/lib/api/marvel";
+import { FavoriteAction, FavoriteState } from "@/store/types";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { actionFavoriteAdd, actionFavoriteRemove } from "@/store/actions";
 
-export default function useCharacters(limit = 50) {
+export default function useCharacters(
+  limit = 50,
+  isFilteringFavorites = false
+): UseCharacters {
+  const dispatch = useDispatch<Dispatch<FavoriteAction>>();
+  const favoritesStore = useSelector<
+    { favoriteReducer: FavoriteState },
+    Character[]
+  >((state) => state?.favoriteReducer?.favorites ?? []);
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [favorites, setFavorites] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
@@ -12,17 +25,41 @@ export default function useCharacters(limit = 50) {
   const offsetRef = useRef(0);
 
   function reset() {
+    setCharacters([]);
     setLoading(false);
     setError(null);
-    setCharacters([]);
     offsetRef.current = 0;
     inFlight.current = false;
     setHasMore(true);
   }
 
+  function escapeRegExp(s: string) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  const searchFavorites = useCallback(
+    (nameStartsWith?: string | null) => {
+      let filtered: Character[];
+      const term = (nameStartsWith || "").trim();
+      if (term) {
+        const pattern = "^" + escapeRegExp(term);
+        const regex = new RegExp(pattern, "i");
+        filtered = favoritesStore.filter((c) => regex.test(c.name.trim()));
+      } else {
+        filtered = favoritesStore;
+      }
+      setFavorites(filtered);
+      setHasMore(false);
+      setLoading(false);
+      setError(null);
+      return filtered;
+    },
+    [favoritesStore]
+  );
+
   const loadMore = useCallback(
     async (nameStartsWith?: string | null) => {
-      if (inFlight.current || !hasMore) return;
+      if (inFlight.current || !hasMore || isFilteringFavorites) return;
       inFlight.current = true;
       setLoading(true);
       setError(null);
@@ -43,25 +80,41 @@ export default function useCharacters(limit = 50) {
         inFlight.current = false;
       }
     },
-    [limit, hasMore]
+    [limit, hasMore, isFilteringFavorites]
   );
 
-  // initial load / reset when limit changes
+  function favoriteAdd(character: Character) {
+    dispatch(actionFavoriteAdd(character));
+  }
+
+  function favoriteRemove(character: Character) {
+    dispatch(actionFavoriteRemove(character));
+  }
+
+  function isFavorite(id: number) {
+    return favorites.some((character) => character.id === id);
+  }
+
   useEffect(() => {
-    setCharacters([]);
-    offsetRef.current = 0;
-    setHasMore(true);
-    // call initial load
+    setFavorites(favoritesStore);
+  }, [favoritesStore]);
+
+  useEffect(() => {
+    reset();
     loadMore();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit]);
 
   return {
-    characters,
     loading,
     error,
+    characters,
+    favorites,
     loadMore,
     hasMore,
+    searchFavorites,
     reset,
-  } as const;
+    isFavorite,
+    favoriteAdd,
+    favoriteRemove,
+  };
 }

@@ -4,7 +4,7 @@ import { ApiResponse, UseApi } from "./types";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { UserAction } from "@/store/types";
-import { actionLogout } from "@/store/actions/users";
+import { actionLogout } from "@/store/actions";
 
 export function useApi(): UseApi {
   const [loading, setLoading] = useState<boolean>(false);

@@ -21,12 +21,12 @@ const favoriteReducer = (state = initialState, action: FavoriteAction): Favorite
     case FAVORITE_ADD_SUCCESS:
     return {
       ...state,
-      favorites: Array.from(new Set([...state.favorites, action.id])),
+      favorites: Array.from(new Set([...state.favorites, action.character!])).filter(Boolean),
     };
     case FAVORITE_REMOVE_SUCCESS:
     return {
       ...state,
-      favorites: state.favorites.filter(id => id !== action.id),
+      favorites: state.favorites.filter(character => character.id !== action.character?.id),
     };
     default:
       return state;

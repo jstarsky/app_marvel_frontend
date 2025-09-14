@@ -1,3 +1,4 @@
+import { Character } from "@/app/characters/types";
 
 export interface Action {
   type: string;
@@ -9,7 +10,8 @@ export interface UserAction extends Action {
 }
 
 export interface FavoriteAction extends Action {
-  id: number;
+  id?: number;
+  character?: Character;
 }
 
 export interface Profile {
@@ -33,5 +35,5 @@ export interface UserState {
 }
 
 export interface FavoriteState {
-  favorites: number[];
+  favorites: Character[];
 }

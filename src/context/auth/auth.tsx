@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { ApiResponse, useApi } from "@/lib/api";
 import { Dispatch } from "@reduxjs/toolkit";
 import { actionLogin } from "@/store/actions";
-import { actionLogout } from "@/store/actions/users";
+import { actionLogout } from "@/store/actions";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
