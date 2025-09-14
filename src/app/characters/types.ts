@@ -1,4 +1,4 @@
-import {  Ref, RefObject } from "react";
+import {  Dispatch, Ref, RefObject, SetStateAction } from "react";
 
 export interface Thumbnail {
   path: string;
@@ -40,7 +40,7 @@ export interface UseCharacters {
   error: string | null;
   characters: Character[];
   favorites: Character[];
-  loadMore: (nameStartsWith?: string) => void;
+  loadMore: (nameStartsWith?: string, resetload?: boolean) => void;
   hasMore: boolean;
   searchFavorites: (nameStartsWith?: string) => Character[];
   reset: () => void;
@@ -56,4 +56,6 @@ export interface UseCharactersContext extends UseCharacters {
   sentinelRef?: RefObject<HTMLDivElement> | Ref<HTMLDivElement>;
   debouncedReset: () => void;
   cancelDebounce: () => void;
+  character: Character | null;
+  setCharacter: Dispatch<SetStateAction<Character | null>>;
 }

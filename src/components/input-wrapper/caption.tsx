@@ -16,7 +16,7 @@ export function Caption({
     <div
       ref={ref}
       className={[
-        "font-roboto",
+        "font-roboto-condensed",
         "text-sm",
         "flex flex-col justify-center w-full truncate",
         "group-has-[:disabled]:!text-disabled",

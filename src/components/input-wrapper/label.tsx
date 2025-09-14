@@ -9,7 +9,7 @@ export function Label({
   return label ? (
     <div
       className={[
-        "font-roboto",
+        "font-roboto-condensed",
         "text-md",
         "uppercase",
         "flex",

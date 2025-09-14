@@ -30,7 +30,7 @@ export default function InputSearch({
           {...props}
           className={[
             "mb-2",
-            "font-roboto",
+            "font-roboto-condensed",
             "text-md",
             "peer",
             "block w-full",
@@ -55,7 +55,7 @@ export default function InputSearch({
       </label>
       <div className="pt-2">
         {loading ? (
-          <span className="tracking-tighter font-normal text-xs text-black font-roboto uppercase">{t("loading")}</span>
+          <span className="tracking-tighter font-normal text-xs text-black font-roboto-condensed uppercase">{t("loading")}</span>
         ) : (
           <span className="tracking-tighter font-normal text-xs text-black font-roboto-mono uppercase">{t("search_results", { result: result })}</span>
         )}

@@ -5,7 +5,7 @@ import InputSearch from "@/components/input-search";
 import { useTranslation } from "react-i18next";
 import { useLayout } from "@/context/layout";
 
-export function Records() {
+export default function Records() {
   const { t } = useTranslation();
   const {
     inputRef,
@@ -21,6 +21,7 @@ export function Records() {
     debouncedReset,
     loadMore,
     searchFavorites,
+    setCharacter,
   } = useCharactersContext();
   const { ref: refLayout } = useLayout();
 
@@ -36,7 +37,7 @@ export function Records() {
           (inputRef as RefObject<HTMLInputElement>).current?.value
         );
       } else {
-        loadMore((inputRef as RefObject<HTMLInputElement>).current?.value);
+        loadMore((inputRef as RefObject<HTMLInputElement>).current?.value, true);
       }
     };
 
@@ -64,6 +65,12 @@ export function Records() {
           "lg:px-12 lg:pb-8",
         ].join(" ")}
       >
+        <span
+          className="text-2xl font-roboto-condensed font-semibold text-black uppercase mb-4 block data-[ishidden=false]:hidden"
+          data-ishidden={isFilteringFavorites ? "true" : "false"}
+        >
+          {t("favorites")}
+        </span>
         <InputSearch
           ref={inputRef}
           onChange={() => debouncedReset()}
@@ -110,6 +117,10 @@ export function Records() {
                       favoriteAdd(character);
                     }}
                     isFavorite={isfavorite}
+                    onClickImage={(e) => {
+                      e.stopPropagation();
+                      setCharacter(character);
+                    }}
                   />
                 );
               })}

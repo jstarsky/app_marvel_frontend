@@ -10,6 +10,7 @@ export default function Card({
   thumbnail,
   isFavorite,
   onAddFavorite,
+  onClickImage
 }: CardProps) {
   const rawSrc = `${thumbnail.path}.${thumbnail.extension}`;
   const isImageNotAvailable = /image_not_available$/i.test(thumbnail.path);
@@ -23,6 +24,7 @@ export default function Card({
     >
       <div
         className={[
+          "cursor-pointer",
           "w-full !min-h-[11.8732rem]",
           isImageNotAvailable ? "!bg-bottom-left" : "!bg-center",
           "!bg-cover",
@@ -33,6 +35,7 @@ export default function Card({
         style={{ backgroundImage: `url(${src})` }}
         role="img"
         aria-label={name || "character"}
+        onClick={onClickImage}
       />
       <div
         className={[
@@ -60,7 +63,7 @@ export default function Card({
             "w-full",
             "text-sm",
             "text-white",
-            "font-roboto",
+            "font-roboto-condensed",
             "uppercase",
             "truncate",
           ].join(" ")}

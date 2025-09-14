@@ -58,8 +58,11 @@ export default function useCharacters(
   );
 
   const loadMore = useCallback(
-    async (nameStartsWith?: string | null) => {
+    async (nameStartsWith?: string | null, resetload: boolean = false) => {
       if (inFlight.current || !hasMore || isFilteringFavorites) return;
+      if (resetload) {
+        reset();
+      }
       inFlight.current = true;
       setLoading(true);
       setError(null);

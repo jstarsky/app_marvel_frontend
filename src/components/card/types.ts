@@ -6,4 +6,5 @@ export interface CardProps
     Character {
   isFavorite?: boolean;
   onAddFavorite?: (e: MouseEvent<HTMLDivElement>) => void;
+  onClickImage?: (e: MouseEvent<HTMLDivElement>) => void;
 }

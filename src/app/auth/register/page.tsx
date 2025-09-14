@@ -140,7 +140,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="font-roboto font-semibold text-xl p-2 bg-primary text-white hover:bg-primary-hover active:bg-primary-active"
+            className="font-roboto-condensed font-semibold text-xl p-2 bg-primary text-white hover:bg-primary-hover active:bg-primary-active"
           >
             {t("register")}
           </button>
@@ -150,7 +150,7 @@ export default function Register() {
               onClick={() => {
                 router.push("/auth/login");
               }}
-              className="w-fit font-roboto font-semibold text-md p-2 text-white underline hover:text-primary-hover active:text-primary-active"
+              className="w-fit font-roboto-condensed font-semibold text-md p-2 text-white underline hover:text-primary-hover active:text-primary-active"
             >
               {t("login")}
             </button>

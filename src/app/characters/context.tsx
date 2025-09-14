@@ -5,8 +5,9 @@ import {
   useRef,
   useEffect,
   use,
+  useState,
 } from "react";
-import { UseCharactersContext } from "./types";
+import { Character, UseCharactersContext } from "./types";
 import useCharacters from "./hook";
 import { useDebounce } from "@/hooks/debounce";
 import { useLayout } from "@/context/layout";
@@ -17,6 +18,7 @@ export const CharactersContext = createContext<
 
 export const CharactersProvider = ({ children }: { children: ReactNode }) => {
   const { isFilteringFavorites } = useLayout();
+  const [character, setCharacter] = useState<Character | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const {
     loading,
@@ -86,6 +88,8 @@ export const CharactersProvider = ({ children }: { children: ReactNode }) => {
         sentinelRef,
         debouncedReset,
         cancelDebounce,
+        character,
+        setCharacter,
       }}
     >
       {children}

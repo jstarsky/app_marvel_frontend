@@ -33,7 +33,7 @@ export function Input({
         disabled={disabled}
         required={typeof required === "object" ? required?.value : required}
         className={[
-          "font-roboto",
+          "font-roboto-condensed",
           "text-md",
           "peer",
           "block w-full",
