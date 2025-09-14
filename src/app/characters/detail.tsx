@@ -164,6 +164,25 @@ export default function Detail() {
           </div>
         </div>
       </div>
+      <span
+        className={[
+          "text-2xl",
+          "font-roboto-condensed",
+          "font-semibold",
+          "text-black",
+          "uppercase",
+          "my-4",
+          "max-w-[60rem]",
+          "min-w-[60rem]",
+          "mx-auto",
+          "xs:pb-0 xs:px-4",
+          "sm:pb-0 sm:px-0",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {t("comics")}
+      </span>
       <div
         className={[
           "flex-1",
@@ -174,24 +193,26 @@ export default function Detail() {
           "sm:gap-16",
           "max-w-[60rem]",
           "mx-auto",
+          "h-full",
+          "min-h-0",
         ]
           .filter(Boolean)
           .join(" ")}
       >
-        <div className="w-[60rem] mx-auto overflow-x-auto">
-          <div className="inline-grid grid-flow-col auto-cols-[11.2rem] w-max gap-2 pt-4 h-[21.3rem] items-stretch">
+        <div className="w-[60rem] mx-auto overflow-x-auto overflow-y-auto scrollbar-thin md:scrollbar-primary scrollbar-primary max-h-[26rem]">
+          <div className="inline-grid grid-flow-col auto-cols-[11.2rem] w-max gap-2 h-[21.3rem] items-stretch">
             {comicsAvailable.map((comic: Summary, index: number) => {
-            const match = comic.resourceURI.match(/public\/(.+)/);
-            const uri = match ? match[1] : undefined;
-            return (
-              <Comic
-                key={index}
-                uri={uri}
-                name={comic.name}
-                resource={comic.resourceURI}
-                resourceURI={resourceURI}
-              />
-            );
+              const match = comic.resourceURI.match(/public\/(.+)/);
+              const uri = match ? match[1] : undefined;
+              return (
+                <Comic
+                  key={index}
+                  uri={uri}
+                  name={comic.name}
+                  resource={comic.resourceURI}
+                  resourceURI={resourceURI}
+                />
+              );
             })}
           </div>
         </div>

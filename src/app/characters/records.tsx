@@ -85,7 +85,7 @@ export default function Records() {
           result={isFilteringFavorites ? favorites.length : characters.length}
         />
       </div>
-      <div ref={scrollRef} className="flex-1 !overflow-y-scroll">
+  <div ref={scrollRef} className="flex-1 !overflow-y-scroll scrollbar-primary">
         <div>
           <div
             className={[
@@ -100,6 +100,7 @@ export default function Records() {
               "lg:px-12 lg:pb-12",
               "gap-4",
               "min-h-0",
+              "md:scrollbar-primary",
             ].join(" ")}
           >
             {records.length > 0 &&
