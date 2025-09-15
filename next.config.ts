@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   devIndicators: false,
+  output: "standalone",
   images: {
     domains: ["i.annih.us"],
     remotePatterns: [
