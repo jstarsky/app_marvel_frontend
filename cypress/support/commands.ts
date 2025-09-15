@@ -4,6 +4,7 @@ export {}
 // Add custom commands here if needed
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       login(): void

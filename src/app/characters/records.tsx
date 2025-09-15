@@ -1,5 +1,5 @@
 import Card from "@/components/card";
-import { RefObject, useCallback, useEffect, useMemo, useState } from "react";
+import { RefObject, useCallback, useEffect, useMemo } from "react";
 import { useCharactersContext } from "./context";
 import InputSearch from "@/components/input-search";
 import { useTranslation } from "react-i18next";
@@ -40,7 +40,7 @@ export default function Records() {
         loadMore((inputRef as RefObject<HTMLInputElement>).current?.value);
       }
     },
-    [reset]
+    [reset, loadMore, searchFavorites, inputRef]
   );
 
   useEffect(() => {
@@ -50,15 +50,13 @@ export default function Records() {
     return () => {
       el.removeEventListener("changeFilterFavorites", handler as EventListener);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refLayout]);
+  }, [refLayout, handler]);
 
   const records = useMemo(() => {
     if (isFilteringFavorites) {
       return favorites;
     }
     return characters;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [favorites, characters, isFilteringFavorites]);
 
   console.log("Records", { records, favorites, characters });

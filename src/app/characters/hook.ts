@@ -124,6 +124,7 @@ export default function useCharacters(
     reset();
     loadMore();
     setFavorites(favoritesStore);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit]);
 
   return {
