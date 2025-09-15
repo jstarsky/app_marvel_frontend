@@ -1,5 +1,5 @@
 import Card from "@/components/card";
-import { RefObject, useEffect, useMemo } from "react";
+import { RefObject, useCallback, useEffect, useMemo, useState } from "react";
 import { useCharactersContext } from "./context";
 import InputSearch from "@/components/input-search";
 import { useTranslation } from "react-i18next";
@@ -18,31 +18,34 @@ export default function Records() {
     favoriteAdd,
     favoriteRemove,
     isFavorite,
-    debouncedReset,
-    loadMore,
-    searchFavorites,
+    debouncedSearch,
     setCharacter,
+    reset,
+    searchFavorites,
+    loadMore,
   } = useCharactersContext();
+
   const { ref: refLayout } = useLayout();
 
-  useEffect(() => {
-    const el = refLayout && "current" in refLayout ? refLayout.current : null;
-    if (!el) return;
-
-    const handler = (e: Event) => {
+  const handler = useCallback(
+    (e: Event) => {
       if (!(e instanceof CustomEvent)) return;
+      reset();
       const value = e.detail as boolean | undefined;
       if (value) {
         searchFavorites(
           (inputRef as RefObject<HTMLInputElement>).current?.value
         );
       } else {
-        loadMore(
-          (inputRef as RefObject<HTMLInputElement>).current?.value,
-          true
-        );
+        loadMore((inputRef as RefObject<HTMLInputElement>).current?.value);
       }
-    };
+    },
+    [reset]
+  );
+
+  useEffect(() => {
+    const el = refLayout && "current" in refLayout ? refLayout.current : null;
+    if (!el) return;
     el.addEventListener("changeFilterFavorites", handler as EventListener);
     return () => {
       el.removeEventListener("changeFilterFavorites", handler as EventListener);
@@ -56,16 +59,9 @@ export default function Records() {
     }
     return characters;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [characters, favorites, isFilteringFavorites, inputRef]);
+  }, [favorites, characters, isFilteringFavorites]);
 
-  // if (
-  //   inputRef &&
-  //   typeof inputRef !== "function" &&
-  //   "current" in inputRef
-  // ) {
-  //   console.log({ value: inputRef.current?.value });
-  // }
-
+  console.log("Records", { records, favorites, characters });
   return (
     <>
       <div
@@ -86,11 +82,11 @@ export default function Records() {
         <InputSearch
           data-testid="search-input"
           ref={inputRef}
-          onChange={() => debouncedReset()}
+          onChange={() => debouncedSearch()}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              debouncedReset();
+              debouncedSearch();
             }
           }}
           placeholder={t("search_character")}

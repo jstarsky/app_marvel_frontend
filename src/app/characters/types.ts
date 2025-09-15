@@ -47,9 +47,9 @@ export interface UseCharacters {
   error: string | null;
   characters: Character[];
   favorites: Character[];
-  loadMore: (nameStartsWith?: string, resetload?: boolean) => void;
+  loadMore: (nameStartsWith?: string) => void;
   hasMore: boolean;
-  searchFavorites: (nameStartsWith?: string) => Character[];
+  searchFavorites: (nameStartsWith?: string) => void;
   reset: () => void;
   isFavorite: (id: number) => boolean;
   favoriteAdd: (character: Character) => void;
@@ -62,7 +62,7 @@ export interface UseCharactersContext extends UseCharacters {
   inputRef?: RefObject<HTMLInputElement> | Ref<HTMLInputElement>;
   scrollRef?: RefObject<HTMLDivElement> | Ref<HTMLDivElement>;
   sentinelRef?: RefObject<HTMLDivElement> | Ref<HTMLDivElement>;
-  debouncedReset: () => void;
+  debouncedSearch: () => void;
   cancelDebounce: () => void;
   character: Character | null;
   setCharacter: Dispatch<SetStateAction<Character | null>>;

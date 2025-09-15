@@ -5,6 +5,7 @@ import { FavoriteAction, FavoriteState } from "@/store/types";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { actionFavoriteAdd, actionFavoriteRemove } from "@/store/actions";
+import { store } from "@/store";
 
 export default function useCharacters(
   limit = 50,
@@ -18,19 +19,20 @@ export default function useCharacters(
   const [characters, setCharacters] = useState<Character[]>([]);
   const [favorites, setFavorites] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [hasMore, setHasMore] = useState(true);
+  const errorRef = useRef<string | null>(null);
+  const hasMoreRef = useRef(true);
 
   const inFlight = useRef(false);
   const offsetRef = useRef(0);
 
   function reset() {
     setCharacters([]);
+    setFavorites([]);
     setLoading(false);
-    setError(null);
+    errorRef.current = null;
     offsetRef.current = 0;
     inFlight.current = false;
-    setHasMore(true);
+    hasMoreRef.current = true;
   }
 
   function escapeRegExp(s: string) {
@@ -41,6 +43,7 @@ export default function useCharacters(
     (nameStartsWith?: string | null) => {
       let filtered: Character[];
       const term = (nameStartsWith || "").trim();
+      setLoading(true);
       if (term) {
         const pattern = "^" + escapeRegExp(term);
         const regex = new RegExp(pattern, "i");
@@ -48,24 +51,23 @@ export default function useCharacters(
       } else {
         filtered = favoritesStore;
       }
-      setFavorites(filtered);
-      setHasMore(false);
+      // favoritesRef.current = [...filtered];
+      setFavorites([...filtered]);
+      hasMoreRef.current = false;
       setLoading(false);
-      setError(null);
-      return filtered;
+      console.log("searchFavorites", { term, filtered });
+      errorRef.current = null;
     },
     [favoritesStore]
   );
 
   const loadMore = useCallback(
-    async (nameStartsWith?: string | null, resetload: boolean = false) => {
-      if (inFlight.current || !hasMore || isFilteringFavorites) return;
-      if (resetload) {
-        reset();
-      }
+    async (nameStartsWith?: string | null) => {
+      if (inFlight.current || !hasMoreRef.current || isFilteringFavorites)
+        return;
       inFlight.current = true;
       setLoading(true);
-      setError(null);
+      errorRef.current = null;
       try {
         const res = await marvel.get("/api/marvel/characters", {
           params: { limit, offset: offsetRef.current, nameStartsWith },
@@ -75,19 +77,19 @@ export default function useCharacters(
         setCharacters((prev) => [...prev, ...data]);
         offsetRef.current += data.length;
         const more = total > offsetRef.current;
-        setHasMore(more);
+        hasMoreRef.current = more;
       } catch (err) {
         if (err instanceof Error) {
-          setError(err.message);
+          errorRef.current = err.message;
         } else {
-          setError(String(err));
+          errorRef.current = String(err);
         }
       } finally {
         setLoading(false);
         inFlight.current = false;
       }
     },
-    [limit, hasMore, isFilteringFavorites]
+    [limit, hasMoreRef, isFilteringFavorites]
   );
 
   async function resourceURI(uri: string) {
@@ -104,33 +106,33 @@ export default function useCharacters(
 
   function favoriteAdd(character: Character) {
     dispatch(actionFavoriteAdd(character));
+    const state = store.getState();
+    setFavorites(state.favoriteReducer?.favorites ?? []);
   }
 
   function favoriteRemove(character: Character) {
     dispatch(actionFavoriteRemove(character));
+    const state = store.getState();
+    setFavorites(state.favoriteReducer?.favorites ?? []);
   }
 
   function isFavorite(id: number) {
-    return favorites.some((character) => character.id === id);
+    return favoritesStore.some((character) => character.id === id);
   }
-
-  useEffect(() => {
-    setFavorites(favoritesStore);
-  }, [favoritesStore]);
 
   useEffect(() => {
     reset();
     loadMore();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setFavorites(favoritesStore);
   }, [limit]);
 
   return {
     loading,
-    error,
+    error: errorRef.current,
     characters,
-    favorites,
+    favorites: favorites,
     loadMore,
-    hasMore,
+    hasMore: hasMoreRef.current,
     searchFavorites,
     reset,
     isFavorite,

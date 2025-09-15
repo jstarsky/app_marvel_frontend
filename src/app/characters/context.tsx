@@ -48,10 +48,12 @@ export const CharactersProvider = ({
     resourceURI,
   } = useCharacters(50, isFilteringFavorites);
 
-  const { call: debouncedReset, cancel: cancelDebounce } = useDebounce(() => {
+  const { call: debouncedSearch, cancel: cancelDebounce } = useDebounce(() => {
     reset();
     if (isFilteringFavorites) {
       searchFavorites(inputRef.current?.value);
+    }else {
+      loadMore(inputRef.current?.value);
     }
   }, 500);
 
@@ -100,7 +102,7 @@ export const CharactersProvider = ({
         inputRef,
         scrollRef,
         sentinelRef,
-        debouncedReset,
+        debouncedSearch,
         cancelDebounce,
         character,
         setCharacter,
