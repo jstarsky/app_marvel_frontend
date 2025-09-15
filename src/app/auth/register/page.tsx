@@ -107,16 +107,6 @@ export default function Register() {
             }
             {...register("password", {
               required: t("password_required"),
-              minLength: {
-                value: 6,
-                message: t("password_min_length", { length: 6 }),
-              },
-              maxLength: {
-                value: 8,
-                message: t("password_max_length", { length: 8 }),
-              },
-              validate: (value: string) =>
-                /[a-zA-Z]/.test(value) || t("password_must_have_letter"),
             })}
           />
           <Input

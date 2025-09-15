@@ -43,7 +43,6 @@ export default function Records() {
         );
       }
     };
-
     el.addEventListener("changeFilterFavorites", handler as EventListener);
     return () => {
       el.removeEventListener("changeFilterFavorites", handler as EventListener);
@@ -56,7 +55,16 @@ export default function Records() {
       return favorites;
     }
     return characters;
-  }, [characters, favorites, isFilteringFavorites]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [characters, favorites, isFilteringFavorites, inputRef]);
+
+  // if (
+  //   inputRef &&
+  //   typeof inputRef !== "function" &&
+  //   "current" in inputRef
+  // ) {
+  //   console.log({ value: inputRef.current?.value });
+  // }
 
   return (
     <>
