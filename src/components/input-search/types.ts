@@ -5,4 +5,5 @@ export interface InputSearchProps
   ref?: Ref<HTMLInputElement>;
   result?: number;
   loading?: boolean;
+  'data-testid'?: string;
 }

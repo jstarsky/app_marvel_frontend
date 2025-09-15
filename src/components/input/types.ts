@@ -24,4 +24,5 @@ export interface InputProps
   requiredMessage?: string;
   variable?: "primary" | "white" | "black";
   "data-font-nums"?: "true" | "false";
+  "data-testid"?: string;
 }

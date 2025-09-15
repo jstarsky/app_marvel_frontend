@@ -98,3 +98,42 @@ If you want I can:
 - Remove any accidental `NEXT_PUBLIC_MARVEL_API_PRIVATE_KEY` values from client `.env` files and move the key to the backend env.
 
 Reply with `apply README` to commit this README, or `apply README + fix backend` to also prepare a `settings.py` patch for your Django backend (I'll show the diff before applying).
+
+## Testing (Cypress)
+
+This repository includes end-to-end tests using Cypress. The tests live under `cypress/e2e` and are runnable locally.
+
+Prerequisites
+- Start the frontend dev server:
+
+```bash
+npm run dev
+```
+
+- If you want tests to hit the real backend, start your backend and ensure `NEXT_PUBLIC_API_URL` points to it. Tests may also stub network calls (some specs use `cy.intercept`).
+
+Run Cypress GUI
+
+```bash
+npm run cypress:open
+```
+
+Run tests headless
+
+```bash
+npm run test:e2e
+```
+
+Notes
+- The `login` spec (`cypress/e2e/login.cy.ts`) contains both a real-backend flow and stubbed options. The test uses `data-testid` attributes added to the login and search inputs for stable selection.
+- If the backend is slow or a query returns no results, tests can be flaky. Prefer stubbing API responses with `cy.intercept` and fixtures for deterministic CI runs.
+- To stub search responses, add an intercept like:
+
+```js
+cy.intercept('GET', '/api/marvel/characters*', { fixture: 'characters/spiderman.json' }).as('charactersSearch')
+```
+
+and place `cypress/fixtures/characters/spiderman.json` with the expected payload.
+
+CI
+- I can add a GitHub Action that runs the frontend, starts a test backend or uses stubs, and executes `npm run test:e2e` if you want CI test coverage.

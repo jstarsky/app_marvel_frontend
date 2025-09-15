@@ -6,6 +6,7 @@ export default function InputSearch({
   className,
   loading = false,
   result,
+  "data-testid": dataTestId,
   ...props
 }: InputSearchProps) {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ export default function InputSearch({
           ]
             .filter(Boolean)
             .join(" ")}
+          data-testid={dataTestId}
         />
       </label>
       <div className="pt-2">

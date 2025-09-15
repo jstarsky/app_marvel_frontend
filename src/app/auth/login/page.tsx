@@ -50,6 +50,7 @@ export default function Login() {
         </span>
         <div className="flex flex-col gap-4">
           <Input
+            data-testid="login-username"
             label={t("username")}
             variable="white"
             disabled={loading}
@@ -71,6 +72,7 @@ export default function Login() {
             })}
           />
           <Input
+            data-testid="login-password"
             type="password"
             label={t("password")}
             variable="white"
@@ -93,6 +95,7 @@ export default function Login() {
         </div>
         <div className="flex flex-col gap-2 mt-2">
           <button
+            data-testid="login-submit"
             type="submit"
             disabled={loading}
             className="font-roboto-condensed font-semibold text-xl p-2 bg-primary text-white hover:bg-primary-hover active:bg-primary-active"

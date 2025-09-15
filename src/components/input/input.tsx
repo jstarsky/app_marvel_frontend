@@ -13,6 +13,7 @@ export function Input({
   className,
   variable = "black",
   "data-font-nums": dataFontNums = "false",
+  "data-testid": dataTestId,
   ...props
 }: InputProps) {
   const generatedId = useId();
@@ -62,6 +63,7 @@ export function Input({
         data-variable={variable}
         data-font-nums={dataFontNums}
         data-disabled={disabled ? "true" : "false"}
+        data-testid={dataTestId}
       />
     </InputWrapper>
   );

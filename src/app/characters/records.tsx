@@ -84,6 +84,7 @@ export default function Records() {
           {t("favorites")}
         </span>
         <InputSearch
+          data-testid="search-input"
           ref={inputRef}
           onChange={() => debouncedReset()}
           onKeyDown={(e) => {
