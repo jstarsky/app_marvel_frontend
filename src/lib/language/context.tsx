@@ -9,7 +9,7 @@ const LanguageContext = createContext<UseLanguageContext | undefined>(
 );
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const { i18n } = useTranslation();
-  const [languages, setLanguages] = useState<Language[]>([
+  const [languages] = useState<Language[]>([
     Language.ES,
     Language.EN,
   ]);

@@ -35,6 +35,7 @@ export function AuthProvider({ children }: { children?: ReactNode }) {
       router.replace("/auth/login");
     }
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   async function login(

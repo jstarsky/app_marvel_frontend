@@ -150,9 +150,11 @@ export default function Detail() {
                     .join(" ")}
                   onClick={() => {
                     if (character?.id) {
-                      isFavorite(character?.id)
-                        ? favoriteRemove(character)
-                        : favoriteAdd(character);
+                      if (isFavorite(character?.id)) {
+                        favoriteRemove(character);
+                      } else {
+                        favoriteAdd(character);
+                      }
                     }
                   }}
                 />

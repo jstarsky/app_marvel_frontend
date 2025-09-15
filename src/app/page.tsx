@@ -10,6 +10,7 @@ export default function Home() {
     if (isAuthenticated) {
       router.replace("/characters");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
   return null;
 }

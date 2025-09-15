@@ -6,19 +6,21 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth";
 import LoadingMarvel from "@/components/loading-marvel";
+import { LoginFormData } from "./types";
 
 export default function Login() {
   const { t } = useTranslation();
   const router = useRouter();
   const { loading, login } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm<LoginFormData>();
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: LoginFormData) {
     const response = await login(data.username, data.password);
     if (response.error && response.error.response) {
       const errorData = response.error.response.data as { message: string };

@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { ApiResponse, ComicData } from "./types";
 import LoadingMarvel from "../loading-marvel";
 
-export default function Comic<T extends ApiResponse>({
+//
+export default function Comic({
   uri,
   name,
-  resource,
+  // resource,
   resourceURI,
 }: {
   uri?: string;
@@ -52,6 +53,7 @@ export default function Comic<T extends ApiResponse>({
     return () => {
       isMounted.current = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

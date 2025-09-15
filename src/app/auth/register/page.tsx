@@ -6,6 +6,12 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth";
 
+type RegisterFormData = {
+  username: string;
+  password: string;
+  password_confirm: string;
+};
+
 export default function Register() {
   const { t } = useTranslation();
   const router = useRouter();
@@ -15,9 +21,9 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm<RegisterFormData>();
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: RegisterFormData) {
     if (data.password !== data.password_confirm) {
       setError("password_confirm", {
         type: "manual",

@@ -77,7 +77,11 @@ export default function useCharacters(
         const more = total > offsetRef.current;
         setHasMore(more);
       } catch (err) {
-        setError((err as any)?.message || String(err));
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError(String(err));
+        }
       } finally {
         setLoading(false);
         inFlight.current = false;
@@ -117,6 +121,7 @@ export default function useCharacters(
   useEffect(() => {
     reset();
     loadMore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit]);
 
   return {
@@ -131,6 +136,6 @@ export default function useCharacters(
     isFavorite,
     favoriteAdd,
     favoriteRemove,
-    resourceURI
+    resourceURI,
   };
 }

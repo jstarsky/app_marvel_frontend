@@ -14,9 +14,15 @@ export async function GET(req: Request) {
     };
     const res = await serverMarvel.get("/characters", { params });
     return NextResponse.json(res.data);
-  } catch (err: any) {
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json(
+        { error: err.message },
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
-      { error: err.message || String(err) },
+      { error: String(err) },
       { status: 500 }
     );
   }

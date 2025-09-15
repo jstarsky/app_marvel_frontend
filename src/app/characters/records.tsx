@@ -37,7 +37,10 @@ export default function Records() {
           (inputRef as RefObject<HTMLInputElement>).current?.value
         );
       } else {
-        loadMore((inputRef as RefObject<HTMLInputElement>).current?.value, true);
+        loadMore(
+          (inputRef as RefObject<HTMLInputElement>).current?.value,
+          true
+        );
       }
     };
 
@@ -45,6 +48,7 @@ export default function Records() {
     return () => {
       el.removeEventListener("changeFilterFavorites", handler as EventListener);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refLayout]);
 
   const records = useMemo(() => {
@@ -85,7 +89,10 @@ export default function Records() {
           result={isFilteringFavorites ? favorites.length : characters.length}
         />
       </div>
-  <div ref={scrollRef} className="flex-1 !overflow-y-scroll scrollbar-primary">
+      <div
+        ref={scrollRef}
+        className="flex-1 !overflow-y-scroll scrollbar-primary"
+      >
         <div>
           <div
             className={[
@@ -110,7 +117,7 @@ export default function Records() {
                   <Card
                     key={`character-${character.id}-${index}`}
                     {...character}
-                    onAddFavorite={(e) => {
+                    onAddFavorite={() => {
                       if (isfavorite) {
                         favoriteRemove(character);
                         return;

@@ -7,9 +7,15 @@ export async function GET(req: Request) {
     const path = url.searchParams.get("path") || undefined;
     const res = await serverMarvel.get(path || "/");
     return NextResponse.json(res.data);
-  } catch (err: any) {
+  } catch (err: Error | unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json(
+        { error: err.message },
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
-      { error: err.message || String(err) },
+      { error: String(err) },
       { status: 500 }
     );
   }
